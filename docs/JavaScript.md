@@ -193,14 +193,15 @@ typeof new RegExp(); //object 无效
 - 对于基本类型，除 null 以外，均可以返回正确的结果。对于 null ，返回 object 类型。
 - 对于引用类型，除 function 以外，一律返回 object 类型。
 - 在实际的项目应用中，typeof只有两个用途，就是检测一个元素是否为undefined，或者是否为function。
->>> null 有属于自己的数据类型 Null ， 引用类型中的 数组、日期、正则 也都有属于自己的具体类型，而 typeof 对于这些类型的处理，只返回了处于其原型链最顶端的 Object 类型，没有错，但不是我们想要的结果。
+> null 有属于自己的数据类型 Null ， 引用类型中的 数组、日期、正则 也都有属于自己的具体类型，而 typeof 对于这些类型的处理，只返回了处于其原型链最顶端的 Object 类型，没有错，但不是我们想要的结果。
 2. instanceof 
+
 A instanceof B，如果 A 是 B 的实例，则返回 true,否则返回 false。
 **instanceof 检测的是原型**
 instanceof 只能用来判断两个对象是否属于实例关系， 而不能判断一个对象实例**具体**属于哪种类型。
 例：instanceof 能够判断出 [ ] 是Array的实例，且它认为 [ ] 也是Object的实例，因为存在一条这样的原型链
 
-- instanceof 操作符的问题在于，它假定只有一个全局执行环境。如果网页中包含多个框架，那实际上就存在两个以上不同的全局执行环境，从而存在两个以上不同版本的构造函数。如果你从一个框架向另一个框架传入一个数组，那么传入的数组与在第二个框架中原生创建的数组分别具有各自不同的构造函数。
+> instanceof 操作符的问题在于，它假定只有一个全局执行环境。如果网页中包含多个框架，那实际上就存在两个以上不同的全局执行环境，从而存在两个以上不同版本的构造函数。如果你从一个框架向另一个框架传入一个数组，那么传入的数组与在第二个框架中原生创建的数组分别具有各自不同的构造函数。
 ```
 var iframe = document.createElement('iframe');
 document.body.appendChild(iframe);
@@ -212,6 +213,7 @@ arr instanceof Array; // false
 Array.isArray() 本质上检测的是对象的 [[Class]] 值，[[Class]] 是对象的一个内部属性，里面包含了对象的类型信息，其格式为 [object Xxx] ，Xxx 就是对应的具体类型 。对于数组而言，[[Class]] 的值就是 [object Array] 。
 
 3. Object.prototype.toString()
+
 toString() 是 Object 的原型方法，调用该方法，默认返回当前对象的 [[Class]] 。这是一个内部属性，其格式为 [object Xxx] ，其中 Xxx 就是对象的类型。
 
 对于 Object 对象，直接调用 toString()  就能返回 [object Object] 。而对于其他对象，则需要通过 call / apply 来调用才能返回正确的类型信息。
